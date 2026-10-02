@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Οκτώηχος · Octoechos</title>
+  <meta name="description" content="Οκτώηχος — Θεωρία Βυζαντινής Μουσικής, Εορτολόγιο με βίους αγίων, Τυπική Διάταξη και Ισοκράτης." />
+  <link rel="icon" href="favicon.png" />
+  <meta property="og:title" content="Οκτώηχος · Octoechos" />
+  <meta property="og:description" content="Θεωρία Βυζαντινής Μουσικής, Εορτολόγιο, Τυπική Διάταξη και Ισοκράτης σε μία εφαρμογή." />
+  <meta property="og:image" content="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=GFS+Neohellenic:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbf7ef;
+      --surface: #ffffff;
+      --primary: #7a1f1f;
+      --accent: #b8860b;
+      --gold-soft: #f5ecd7;
+      --text: #2b2118;
+      --muted: #7a6e62;
+      --border: #e8dfd0;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'GFS Neohellenic', Georgia, 'Times New Roman', serif;
+      font-size: 19px;
+      line-height: 1.55;
+    }
+    a { color: var(--primary); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+    /* Κεφαλίδα */
+    header { background: var(--primary); color: #fff; position: sticky; top: 0; z-index: 10; }
+    header .wrap { display: flex; align-items: center; gap: 12px; height: 64px; }
+    header .badge { width: 40px; height: 40px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); display: grid; place-items: center; }
+    header .badge img { width: 34px; height: 34px; }
+    header .name { font-weight: 700; font-size: 22px; flex: 1; }
+    nav a { color: #fff; text-decoration: none; margin-left: 18px; font-size: 17px; opacity: .9; }
+    nav a:hover { opacity: 1; text-decoration: underline; }
+    .lang { margin-left: 18px; display: inline-flex; border: 1px solid rgba(255,255,255,.5); border-radius: 18px; overflow: hidden; }
+    .lang button { background: none; border: 0; color: #fff; font: inherit; font-size: 15px; padding: 4px 12px; cursor: pointer; }
+    .lang button.on { background: #fff; color: var(--primary); font-weight: 700; }
+    @media (max-width: 720px) { nav .navlink { display: none; } }
+
+    /* Hero */
+    .hero { text-align: center; padding: 48px 0 28px; }
+    .hero img.logo { width: min(560px, 92%); height: auto; }
+    .hero h1 { font-size: clamp(40px, 7vw, 64px); color: var(--primary); margin: 8px 0 0; letter-spacing: .5px; }
+    .hero p.tag { font-size: clamp(20px, 3vw, 26px); color: var(--accent); margin: 4px 0 18px; font-weight: 700; }
+    .hero p.lead { max-width: 720px; margin: 0 auto 26px; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--primary); color: #fff; text-decoration: none; padding: 14px 26px; border-radius: 14px; font-weight: 700; font-size: 19px; }
+    .btn.outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+    .btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .ornament { display: flex; align-items: center; gap: 12px; justify-content: center; color: var(--accent); margin: 34px auto; max-width: 420px; }
+    .ornament::before, .ornament::after { content: ''; flex: 1; height: 1px; background: var(--accent); opacity: .6; }
+
+    /* Λειτουργίες */
+    section { padding: 26px 0; }
+    h2 { font-size: 34px; color: var(--primary); text-align: center; margin: 0 0 6px; }
+    .sub { text-align: center; color: var(--muted); margin: 0 0 26px; }
+    .feature { display: grid; grid-template-columns: 1fr 300px; gap: 36px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 28px; margin-bottom: 22px; }
+    .feature.rev { grid-template-columns: 300px 1fr; }
+    .feature.rev .phone { order: -1; }
+    .feature h3 { font-size: 28px; color: var(--primary); margin: 0 0 8px; }
+    .feature ul { padding-left: 20px; margin: 10px 0 0; }
+    .feature li { margin: 4px 0; }
+    .kicker { font-size: 14px; letter-spacing: 1.5px; color: var(--accent); font-weight: 700; text-transform: uppercase; }
+    .phone { justify-self: center; width: 270px; border-radius: 30px; border: 8px solid #2b2118; overflow: hidden; box-shadow: 0 14px 30px rgba(43,33,24,.22); background: #000; }
+    .phone img { display: block; width: 100%; height: auto; }
+    @media (max-width: 820px) {
+      .feature, .feature.rev { grid-template-columns: 1fr; }
+      .feature.rev .phone { order: 0; }
+    }
+
+    /* Κάρτες */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 20px; }
+    .card h4 { margin: 0 0 6px; color: var(--primary); font-size: 22px; }
+    .card p { margin: 0; color: var(--muted); font-size: 17px; }
+
+    /* Λήψη */
+    .download { background: var(--surface); border: 2px solid var(--accent); border-radius: 22px; padding: 30px; text-align: center; }
+    .note { font-size: 16px; color: var(--muted); margin-top: 14px; }
+
+    footer { margin-top: 40px; background: var(--primary); color: #f5ecd7; padding: 26px 0; font-size: 16px; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: center; }
+    footer a { color: #fff; }
+
+    [data-lang="en"] .el, [data-lang="el"] .en { display: none !important; }
+  </style>
+</head>
+<body data-lang="el">
+  <header>
+    <div class="wrap">
+      <div class="badge"><img src="medallion.png" alt="" /></div>
+      <div class="name"><span class="el">Οκτώηχος</span><span class="en">Octoechos</span></div>
+      <nav>
+        <a class="navlink" href="#features"><span class="el">Λειτουργίες</span><span class="en">Features</span></a>
+        <a class="navlink" href="#download"><span class="el">Λήψη</span><span class="en">Download</span></a>
+        <a class="navlink" href="privacy.html"><span class="el">Απόρρητο</span><span class="en">Privacy</span></a>
+        <span class="lang" role="group" aria-label="Language">
+          <button type="button" data-set="el">ΕΛ</button><button type="button" data-set="en">EN</button>
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <img class="logo" src="logo.png" alt="Άγιος Ιωάννης ο Δαμασκηνός" />
+      <h1>Οκτώηχος</h1>
+      <p class="tag"><span class="el">Θεωρία Βυζαντινής Μουσικής</span><span class="en">Byzantine Music Theory</span></p>
+      <p class="lead">
+        <span class="el">Μια εφαρμογή για ψάλτες και για όσους αγαπούν την ψαλτική: θεωρία με τεστ γνώσεων, εορτολόγιο με βίους αγίων, τυπική διάταξη κάθε ημέρας και ισοκράτης με τις κλίμακες κάθε ήχου.</span>
+        <span class="en">An app for chanters and everyone who loves Byzantine chant: music theory with quizzes, a church calendar with lives of the saints, the daily Typikon, and an ison with the scale of every mode.</span>
+      </p>
+      <div class="btns">
+        <a class="btn" href="#download">⬇ <span class="el">Λήψη για Android</span><span class="en">Download for Android</span></a>
+        <a class="btn outline" href="#features"><span class="el">Δες τι περιέχει</span><span class="en">See what’s inside</span></a>
+      </div>
+    </div>
+
+    <div class="ornament">✝</div>
+
+    <section id="features">
+      <h2><span class="el">Τι περιέχει</span><span class="en">What’s inside</span></h2>
+      <p class="sub"><span class="el">Όλα σε μία εφαρμογή, με απλό και καθαρό σχεδιασμό.</span><span class="en">Everything in one app, with a simple and clear design.</span></p>
+
+      <div class="feature">
+        <div>
+          <div class="kicker"><span class="el">Εορτολόγιο</span><span class="en">Church Calendar</span></div>
+          <h3><span class="el">Οι άγιοι κάθε ημέρας και οι βίοι τους</span><span class="en">The saints of each day and their lives</span></h3>
+          <ul class="el">
+            <li>Ημερολόγιο με Δεσποτικές, Θεομητορικές και μεγάλες εορτές.</li>
+            <li>Κινητές εορτές (Τριώδιο, Πάσχα, Πεντηκοστάριο) σωστές για κάθε χρονιά.</li>
+            <li>Σύντομος βίος για κάθε άγιο, με ένα πάτημα.</li>
+            <li>Προαιρετική ειδοποίηση για τις ονομαστικές εορτές των επαφών σου — τα ονόματα δεν φεύγουν ποτέ από το κινητό.</li>
+          </ul>
+          <ul class="en">
+            <li>Calendar with the Feasts of the Lord, of the Theotokos and the major feasts.</li>
+            <li>Movable feasts (Triodion, Pascha, Pentecostarion) correct for any year.</li>
+            <li>A short life of each saint, one tap away (in Greek).</li>
+            <li>Optional name-day reminders for your contacts — names never leave your phone.</li>
+          </ul>
+        </div>
+        <div class="phone"><img src="screen-saints.jpg" alt="Εορτολόγιο" loading="lazy" /></div>
+      </div>
+
+      <div class="feature rev">
+        <div>
+          <div class="kicker"><span class="el">Ισοκράτης</span><span class="en">Ison</span></div>
+          <h3><span class="el">Το ίσο, με τις κλίμακες κάθε ήχου</span><span class="en">The ison, with the scale of every mode</span></h3>
+          <ul class="el">
+            <li>Φυσικός, χορωδιακός ήχος με κλειστό στόμα, σε συνεχή επανάληψη.</li>
+            <li>Κλίμακα κατ’ ήχον: διατονικό, μαλακό και σκληρό χρωματικό, εναρμόνιο (72 μόρια).</li>
+            <li>Τονικότητα σε μόρια (−20 έως +20) για να ταιριάζει με τη φωνή του ψάλτη.</li>
+          </ul>
+          <ul class="en">
+            <li>Natural, choral humming sound, looping seamlessly.</li>
+            <li>Scale by mode: diatonic, soft and hard chromatic, enharmonic (72 moria).</li>
+            <li>Pitch adjustment in moria (−20 to +20) to match the chanter’s voice.</li>
+          </ul>
+        </div>
+        <div class="phone"><img src="screen-iso.jpg" alt="Ισοκράτης" loading="lazy" /></div>
+      </div>
+
+      <div class="feature">
+        <div>
+          <div class="kicker"><span class="el">Τυπική Διάταξη</span><span class="en">Typikon</span></div>
+          <h3><span class="el">Η τάξη των ακολουθιών κάθε ημέρας</span><span class="en">The order of each day’s services</span></h3>
+          <ul class="el">
+            <li>Νηστεία, Εσπερινός, Όρθρος, Θεία Λειτουργία και αναγνώσματα.</li>
+            <li>Τι λέγεται και με ποια σειρά σε κάθε ακολουθία.</li>
+            <li>Πλήρης διάταξη όλου του έτους, με αναζήτηση.</li>
+          </ul>
+          <ul class="en">
+            <li>Fasting, Vespers, Matins, the Divine Liturgy and the readings.</li>
+            <li>What is sung, and in what order, at every service (in Greek).</li>
+            <li>The full Typikon for the whole year, with search.</li>
+          </ul>
+        </div>
+        <div class="phone"><img src="screen-typ.jpg" alt="Τυπική Διάταξη" loading="lazy" /></div>
+      </div>
+
+      <div class="feature rev">
+        <div>
+          <div class="kicker"><span class="el">Θεωρία</span><span class="en">Theory</span></div>
+          <h3><span class="el">Μάθε και δοκίμασε τις γνώσεις σου</span><span class="en">Learn and test your knowledge</span></h3>
+          <ul class="el">
+            <li>Κεφάλαια θεωρίας: φθόγγοι, κλίμακες, χαρακτήρες, ήχοι.</li>
+            <li>Τεστ σε τέσσερα επίπεδα δυσκολίας, με εξηγήσεις.</li>
+            <li>Αναζήτηση σε όλη την ύλη.</li>
+          </ul>
+          <ul class="en">
+            <li>Theory chapters: notes, scales, neumes, modes (in Greek).</li>
+            <li>Quizzes at four levels of difficulty, with explanations.</li>
+            <li>Search across all the material.</li>
+          </ul>
+        </div>
+        <div class="phone"><img src="screen-theory.jpg" alt="Θεωρία" loading="lazy" /></div>
+      </div>
+
+      <div class="cards">
+        <div class="card"><h4><span class="el">Ελληνικά & English</span><span class="en">Greek & English</span></h4><p><span class="el">Μενού και οδηγίες και στα αγγλικά.</span><span class="en">Menus and user guide also in English.</span></p></div>
+        <div class="card"><h4><span class="el">Οδηγίες με παραδείγματα</span><span class="en">Guide with examples</span></h4><p><span class="el">Μικρά κινούμενα παραδείγματα για κάθε λειτουργία.</span><span class="en">Small animated examples for every feature.</span></p></div>
+        <div class="card"><h4><span class="el">Αυτόματες ενημερώσεις</span><span class="en">Automatic updates</span></h4><p><span class="el">Νέο περιεχόμενο χωρίς να ξανακατεβάσεις την εφαρμογή.</span><span class="en">New content without reinstalling the app.</span></p></div>
+        <div class="card"><h4><span class="el">Σεβασμός στο απόρρητο</span><span class="en">Privacy first</span></h4><p><span class="el">Χωρίς διαφημίσεις και χωρίς παρακολούθηση.</span><span class="en">No ads and no tracking.</span></p></div>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="download">
+        <h2><span class="el">Λήψη</span><span class="en">Download</span></h2>
+        <p class="sub"><span class="el">Διαθέσιμο για Android. Η έκδοση για iPhone θα ακολουθήσει.</span><span class="en">Available for Android. The iPhone version will follow.</span></p>
+        <div class="btns">
+          <a class="btn" id="apk-link" href="#">⬇ <span class="el">Κατέβασε το APK για Android</span><span class="en">Download the Android APK</span></a>
+        </div>
+        <p class="note">
+          <span class="el">Η πρόσβαση στην εφαρμογή γίνεται προς το παρόν με πρόσκληση. Για πρόσβαση, επικοινώνησε μαζί μας.</span>
+          <span class="en">Access is currently by invitation. Please contact us for access.</span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="year"></span> Οκτώηχος · <span class="el">Θεωρία Βυζαντινής Μουσικής</span><span class="en">Byzantine Music Theory</span></div>
+      <div><a href="privacy.html"><span class="el">Πολιτική Απορρήτου & Όροι Χρήσης</span><span class="en">Privacy Policy & Terms of Use</span></a></div>
+    </div>
+  </footer>
+
+  <script>
+    // Γλώσσα: θυμάται την επιλογή του επισκέπτη (μόνο στον δικό του browser).
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('okt-lang'); } catch (e) {}
+      var lang = saved || ((navigator.language || 'el').toLowerCase().indexOf('el') === 0 ? 'el' : 'en');
+      function apply(l) {
+        document.body.setAttribute('data-lang', l);
+        document.documentElement.lang = l;
+        document.title = l === 'en' ? 'Octoechos · Byzantine Music Theory' : 'Οκτώηχος · Θεωρία Βυζαντινής Μουσικής';
+        document.querySelectorAll('.lang button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-set') === l); });
+        try { localStorage.setItem('okt-lang', l); } catch (e) {}
+      }
+      document.querySelectorAll('.lang button').forEach(function (b) { b.addEventListener('click', function () { apply(b.getAttribute('data-set')); }); });
+      apply(lang);
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Σύνδεσμος λήψης: η τελευταία έκδοση από τα GitHub Releases του ίδιου αποθετηρίου.
+      var link = document.getElementById('apk-link');
+      var host = location.hostname;
+      if (/\.github\.io$/.test(host)) {
+        var user = host.split('.')[0];
+        var repo = location.pathname.split('/').filter(Boolean)[0] || (user + '.github.io');
+        link.href = 'https://github.com/' + user + '/' + repo + '/releases/latest';
+      }
+    })();
+  </script>
+</body>
+</html>
