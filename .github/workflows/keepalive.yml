@@ -1,0 +1,15 @@
+# Κρατά ξύπνιο τον server της εφαρμογής (Supabase): μία μικρή ανάγνωση κάθε μέρα,
+# ώστε το δωρεάν πρόγραμμα να μην τον «παγώνει» λόγω αδράνειας.
+name: keep-alive
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase
+        run: |
+          curl -fsS "https://xjkcwogvavyjlrwjhcja.supabase.co/rest/v1/app_config?select=key&limit=1" \
+            -H "apikey: sb_publishable_qY0653jTnhtOgIgEwEj1Pg_L31NI5md" > /dev/null
