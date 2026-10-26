@@ -1,15 +1,49 @@
 # Κρατά ξύπνιο τον server της εφαρμογής (Supabase): μία μικρή ανάγνωση κάθε μέρα,
 # ώστε το δωρεάν πρόγραμμα να μην τον «παγώνει» λόγω αδράνειας.
+# Επιπλέον, κάθε Κυριακή ξαναενεργοποιεί η ίδια τον εαυτό της, ώστε το GitHub να μην τη σταματήσει
+# ποτέ (το GitHub σταματά τις προγραμματισμένες εργασίες μετά από 60 ημέρες χωρίς αλλαγές στο αποθετήριο),
+# και την 1η κάθε μήνα γράφει την ημερομηνία στο αρχείο .github/keepalive.txt, ώστε το αποθετήριο να μη θεωρείται ποτέ ανενεργό.
 name: keep-alive
 on:
   schedule:
     - cron: "17 6 * * *"
   workflow_dispatch:
+permissions:
+  actions: write
+  contents: write
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase
+      - name: Ping Supabase (έως 3 προσπάθειες)
         run: |
-          curl -fsS "https://xjkcwogvavyjlrwjhcja.supabase.co/rest/v1/app_config?select=key&limit=1" \
-            -H "apikey: sb_publishable_qY0653jTnhtOgIgEwEj1Pg_L31NI5md" > /dev/null
+          for i in 1 2 3; do
+            if curl -fsS --max-time 30 "https://xjkcwogvavyjlrwjhcja.supabase.co/rest/v1/app_config?select=key&limit=1" \
+              -H "apikey: sb_publishable_qY0653jTnhtOgIgEwEj1Pg_L31NI5md" > /dev/null; then
+              echo "ok"; exit 0
+            fi
+            sleep 60
+          done
+          echo "Ο server δεν απάντησε"; exit 1
+      - name: Να μη σταματήσει ποτέ η εργασία
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(date -u +%u)" = "7" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            gh api -X PUT "repos/${{ github.repository }}/actions/workflows/keepalive.yml/enable" && echo "ενεργή"
+          else
+            echo "ο έλεγχος γίνεται κάθε Κυριακή"
+          fi
+      - name: Μηνιαία μικρή αλλαγή στο αποθετήριο
+        if: always()
+        run: |
+          if [ "$(date -u +%d)" = "01" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            git clone --depth 1 "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" repo
+            cd repo
+            date -u +"%Y-%m-%d %H:%M UTC" > .github/keepalive.txt
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .github/keepalive.txt
+            git commit -m "keep-alive $(date -u +%Y-%m-%d)" && git push
+          fi
