@@ -1,0 +1,39 @@
+# Ανεβάζει το APK της εφαρμογής ως μόνιμη λήψη στην ιστοσελίδα (GitHub Releases).
+# Το κουμπί «Λήψη» του site δείχνει πάντα στο releases/latest/download/Oktoichos.apk.
+# Τα αρχεία του Expo σβήνονται μετά από λίγες εβδομάδες· εδώ μένουν για πάντα.
+name: publish-apk
+on:
+  workflow_dispatch:
+    inputs:
+      apk_url:
+        description: "Σύνδεσμος του APK από το Expo (expo.dev/artifacts/...apk)"
+        required: true
+      version:
+        description: "Έκδοση (π.χ. 1.7.0)"
+        required: true
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Λήψη του APK
+        run: |
+          curl -fL --retry 3 -o Oktoichos.apk "${{ github.event.inputs.apk_url }}"
+          ls -la Oktoichos.apk
+          # έλεγχος ότι είναι πράγματι APK (αρχείο zip)
+          head -c 2 Oktoichos.apk | grep -q PK
+      - name: Δημοσίευση στο Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: v${{ github.event.inputs.version }}
+        run: |
+          NOTES="Οκτώηχος ${{ github.event.inputs.version }} για Android. Κατέβασε το Oktoichos.apk και άνοιξέ το στο κινητό· αν ζητηθεί, επίτρεψε την εγκατάσταση από αυτή την πηγή."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" Oktoichos.apk --clobber
+            gh release edit "$TAG" --draft=false --latest --title "Οκτώηχος ${{ github.event.inputs.version }} (Android)"
+          else
+            gh release create "$TAG" Oktoichos.apk --latest --title "Οκτώηχος ${{ github.event.inputs.version }} (Android)" --notes "$NOTES"
+          fi
+          gh release view "$TAG"
