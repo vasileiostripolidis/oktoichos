@@ -457,7 +457,7 @@
         <h2><span class="el">Λήψη</span><span class="en">Download</span></h2>
         <p class="sub"><span class="el">Διαθέσιμο για Android. Η έκδοση για iPhone και iPad έρχεται σύντομα στο App Store.</span><span class="en">Available for Android. The iPhone and iPad version is coming soon to the App Store.</span></p>
         <div class="btns">
-          <a class="btn" id="apk-link" href="#">⬇ <span class="el">Κατέβασε το APK για Android</span><span class="en">Download the Android APK</span></a>
+          <a class="btn" id="apk-link" href="https://github.com/vasileiostripolidis/oktoichos/releases/latest/download/Oktoichos.apk">⬇ <span class="el">Κατέβασε το APK για Android</span><span class="en">Download the Android APK</span></a>
         </div>
         <p class="note">
           <span class="el">Ανοίγει αμέσως, και χωρίς λογαριασμό. Για απορίες ή προτάσεις, γράψε μας στο email που θα βρεις παρακάτω.</span>
@@ -502,7 +502,7 @@
       if (/\.github\.io$/.test(host)) {
         var user = host.split('.')[0];
         var repo = location.pathname.split('/').filter(Boolean)[0] || (user + '.github.io');
-        link.href = 'https://github.com/' + user + '/' + repo + '/releases/latest';
+        link.href = 'https://github.com/' + user + '/' + repo + '/releases/latest/download/Oktoichos.apk';
       }
     })();
   </script>
