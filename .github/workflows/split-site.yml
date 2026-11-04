@@ -1,0 +1,28 @@
+# One time only: the website moves to its own branch (site), which GitHub Pages serves; main keeps only the page
+# people see (README), the license and the downloads (Releases). This file is removed afterwards.
+name: split-site
+on: workflow_dispatch
+permissions:
+  contents: write
+  pages: write
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Split
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          git config user.name "Τριπολίδης Βασίλειος"
+          git config user.email "vasileios.tripolidis@gmail.com"
+          # 1. the website, as it is, on the branch «site»
+          git push -f origin HEAD:refs/heads/site
+          # 2. GitHub Pages serves that branch (same address as before)
+          gh api -X PUT "repos/${GITHUB_REPOSITORY}/pages" -f "source[branch]=site" -f "source[path]=/" && echo "pages: site" || echo "pages: change it by hand"
+          # 3. main: only the page, the license, the downloads and the automations
+          git ls-files | grep -v -E '^(README\.md|LICENSE|legal/|\.github/)' | while read -r f; do git rm -q -- "$f"; done
+          git commit -q -m "Only the download page here; the source is private" && git push origin HEAD:main
